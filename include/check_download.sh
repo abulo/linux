@@ -101,7 +101,7 @@ checkDownload() {
     case "${db_option}" in
       1)
         # MySQL 8.0
-        DOWN_ADDR_MYSQL=https://cdn.mysql.com/Downloads/MySQL-8.0
+        DOWN_ADDR_MYSQL=https://cdn.mysql.com/Downloads/MySQL-8.4
         if [ "${dbinstallmethod}" == '1' ]; then
           echo "Download MySQL 8.0 binary package..."
           FILE_NAME=mysql-${mysql80_ver}-linux-glibc2.28-x86_64.tar.xz

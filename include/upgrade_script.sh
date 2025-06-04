@@ -4,16 +4,16 @@
 
 Upgrade_Script() {
   pushd ${current_dir} > /dev/null
-  latest_md5=$(curl --connect-timeout 3 -m 5 -s ${mirror_link}/md5sum.txt | grep oneinstack.tar.gz | awk '{print $1}')
+  latest_md5=$(curl --connect-timeout 3 -m 5 -s ${mirror_link}/md5sum.txt | grep lnmp.tar.gz | awk '{print $1}')
   [ ! -e README.md ] && ois_flag=n
   if [ "${script_md5}" != "${latest_md5}" ]; then
     /bin/mv options.conf /tmp
     sed -i '/current_dir=/d' /tmp/options.conf
-    [ -e /tmp/oneinstack.tar.gz ] && rm -rf /tmp/oneinstack.tar.gz
-    wget --no-check-certificate -qc ${mirror_link}/oneinstack.tar.gz -O /tmp/oneinstack.tar.gz
-    tar xzf /tmp/oneinstack.tar.gz -C /tmp
-    /bin/cp -R /tmp/oneinstack/* ${current_dir}/
-    /bin/rm -rf /tmp/oneinstack
+    [ -e /tmp/lnmp.tar.gz ] && rm -rf /tmp/lnmp.tar.gz
+    wget --no-check-certificate -qc ${mirror_link}/lnmp.tar.gz -O /tmp/lnmp.tar.gz
+    tar xzf /tmp/lnmp.tar.gz -C /tmp
+    /bin/cp -R /tmp/lnmp/* ${current_dir}/
+    /bin/rm -rf /tmp/lnmp
     IFS=$'\n'
     for L in `grep -vE '^#|^$' /tmp/options.conf`
     do
@@ -22,7 +22,7 @@ Upgrade_Script() {
       Value="`echo ${L#*=}`"
       sed -i "s|^${Key}=.*|${Key}=${Value}|" ./options.conf
     done
-    rm -rf /tmp/{oneinstack.tar.gz,options.conf}
+    rm -rf /tmp/{lnmp.tar.gz,options.conf}
     [ "${ois_flag}" == "n" ] && rm -f ss.sh LICENSE README.md
     sed -i "s@^script_md5=.*@script_md5=${latest_md5}@" ./options.conf
     if [ -e "change_jdk_version.sh" ]; then
@@ -45,13 +45,14 @@ Upgrade_Script() {
       [ -e "/usr/local/php81/etc/php.ini" ] && sed -i 's@^cgi.fix_pathinfo=0@;&@' /usr/local/php81/etc/php.ini 2>/dev/null
       [ -e "/usr/local/php82/etc/php.ini" ] && sed -i 's@^cgi.fix_pathinfo=0@;&@' /usr/local/php82/etc/php.ini 2>/dev/null
       [ -e "/usr/local/php83/etc/php.ini" ] && sed -i 's@^cgi.fix_pathinfo=0@;&@' /usr/local/php83/etc/php.ini 2>/dev/null
+      [ -e "/usr/local/php84/etc/php.ini" ] && sed -i 's@^cgi.fix_pathinfo=0@;&@' /usr/local/php84/etc/php.ini 2>/dev/null
     fi
     [ -e "/lib/systemd/system/php-fpm.service" ] && { sed -i 's@^PrivateTmp.*@#&@g' /lib/systemd/system/php-fpm.service; systemctl daemon-reload; }
     echo
-    echo "${CSUCCESS}Congratulations! OneinStack upgrade successful! ${CEND}"
+    echo "${CSUCCESS}Congratulations! LNMP upgrade successful! ${CEND}"
     echo
   else
-    echo "${CWARNING}Your OneinStack already has the latest version or does not need to be upgraded! ${CEND}"
+    echo "${CWARNING}Your LNMP already has the latest version or does not need to be upgraded! ${CEND}"
   fi
   [ ! -e "${current_dir}/options.conf" ] && [ -e "/tmp/options.conf" ] && /bin/cp /tmp/options.conf ${current_dir}/options.conf
   popd > /dev/null

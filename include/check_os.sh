@@ -31,6 +31,7 @@ if [[ "${Platform}" =~ ^centos$|^rhel$|^almalinux$|^rocky$|^fedora$|^amzn$|^ol$|
   elif [[ "${Platform}" =~ ^amzn$|^alinux$|^tencentos$|^euleros$ ]]; then
     [[ "${VERSION_MAIN_ID}" =~ ^2$ ]] && RHEL_ver=7
     [[ "${VERSION_MAIN_ID}" =~ ^3$ ]] && RHEL_ver=8
+    [[ "${VERSION_MAIN_ID}" =~ ^4$ ]] && RHEL_ver=9
   elif [[ "${Platform}" =~ ^openeuler$ ]]; then
     [[ "${RHEL_ver}" =~ ^20$ ]] && RHEL_ver=7
     [[ "${RHEL_ver}" =~ ^2[1,2]$ ]] && RHEL_ver=8
@@ -80,7 +81,7 @@ fi
 command -v gcc > /dev/null 2>&1 || $PM -y install gcc
 gcc_ver=$(gcc -dumpversion | awk -F. '{print $1}')
 
-[ ${gcc_ver} -lt 5 >/dev/null 2>&1 ] && redis_ver=${redis_oldver}
+[ ${gcc_ver} -lt 5 >/dev/null 2>&1 ] && redis_ver=6.2.14
 
 if uname -m | grep -Eqi "arm|aarch64"; then
   armplatform="y"
@@ -130,3 +131,5 @@ elif [ "${RHEL_ver}" == '8' ]; then
 else
   sslLibVer=unknown
 fi
+
+[ -e ~/.oneinstack ] && /bin/mv ~/.oneinstack ~/.lnmp

@@ -10,16 +10,6 @@ Install_Tomcat10() {
   id -u ${run_user} >/dev/null 2>&1
   [ $? -ne 0 ] && useradd -g ${run_group} -M -s /bin/bash ${run_user} || { [ -z "$(grep ^${run_user} /etc/passwd | grep '/bin/bash')" ] && usermod -g ${run_group} -s /bin/bash ${run_user}; }
 
-  # install apr
-  if [ ! -e "${apr_install_dir}/bin/apr-1-config" ]; then
-    tar xzf apr-${apr_ver}.tar.gz
-    pushd apr-${apr_ver} > /dev/null
-    ./configure --prefix=${apr_install_dir}
-    make -j ${THREAD} && make install
-    popd > /dev/null
-    rm -rf apr-${apr_ver}
-  fi
-
   tar xzf apache-tomcat-${tomcat10_ver}.tar.gz
   [ ! -d "${tomcat_install_dir}" ] && mkdir -p ${tomcat_install_dir}
   /bin/cp -R apache-tomcat-${tomcat10_ver}/* ${tomcat_install_dir}
@@ -31,33 +21,21 @@ Install_Tomcat10() {
     kill -9 $$; exit 1;
   fi
 
-  pushd ${tomcat_install_dir}/bin > /dev/null
-  tar xzf tomcat-native.tar.gz
-  pushd tomcat-native-*-src/native > /dev/null
-  if [ "${armplatform}" == "y" ]; then
-    ./configure --prefix=${apr_install_dir} --with-apr=${apr_install_dir}
-  else
-    ./configure --prefix=${apr_install_dir} --with-apr=${apr_install_dir} --with-ssl=${openssl_install_dir}
-  fi
-  make -j ${THREAD} && make install
-  popd > /dev/null
-  rm -rf tomcat-native-*
-  if [ -e "${apr_install_dir}/lib/libtcnative-1.la" ]; then
+  if [ -e "${tomcat_install_dir}/bin/catalina.sh" ]; then
     [ ${Mem} -le 768 ] && let Xms_Mem="${Mem}/3" || Xms_Mem=256
     let XmxMem="${Mem}/2"
     cat > ${tomcat_install_dir}/bin/setenv.sh << EOF
 JAVA_OPTS='-Djava.security.egd=file:/dev/./urandom -server -Xms${Xms_Mem}m -Xmx${XmxMem}m -Dfile.encoding=UTF-8'
-CATALINA_OPTS="-Djava.library.path=${apr_install_dir}/lib"
 # -Djava.rmi.server.hostname=$IPADDR
 # -Dcom.sun.management.jmxremote.password.file=\$CATALINA_BASE/conf/jmxremote.password
 # -Dcom.sun.management.jmxremote.access.file=\$CATALINA_BASE/conf/jmxremote.access
 # -Dcom.sun.management.jmxremote.ssl=false"
 EOF
-    chmod +x ./*.sh
+    chmod +x ${tomcat_install_dir}/bin/*.sh
     /bin/mv ${tomcat_install_dir}/conf/server.xml{,_bk}
-    popd # goto ${current_dir}/src
     /bin/cp ${current_dir}/config/server.xml ${tomcat_install_dir}/conf
     sed -i "s@/usr/local/tomcat@${tomcat_install_dir}@g" ${tomcat_install_dir}/conf/server.xml
+    sed -i '/Http11AprProtocol/d' ${tomcat_install_dir}/conf/server.xml
 
     if [ ! -e "${nginx_install_dir}/sbin/nginx" -a ! -e "${tengine_install_dir}/sbin/nginx" -a ! -e "${openresty_install_dir}/nginx/sbin/nginx" -a ! -e "${apache_install_dir}/bin/httpd" ]; then
       if [ "${PM}" == 'yum' ]; then

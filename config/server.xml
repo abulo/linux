@@ -20,7 +20,6 @@
 
   <Service name="Catalina">
     <Connector port="8080"
-              protocol="org.apache.coyote.http11.Http11AprProtocol"
               connectionTimeout="20000"
               redirectPort="8443"
               maxThreads="1000"

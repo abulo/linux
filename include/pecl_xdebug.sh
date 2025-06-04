@@ -10,9 +10,9 @@ Install_pecl_xdebug() {
     PHP_main_ver=${PHP_detail_ver%.*}
     if [[ "${PHP_main_ver}" =~ ^7.[0-4]$|^80$ ]]; then
       if [[ "${PHP_main_ver}" =~ ^7.[0-1]$ ]]; then
-        src_url=https://pecl.php.net/get/xdebug-${xdebug_oldver}.tgz && Download_src
-        tar xzf xdebug-${xdebug_oldver}.tgz
-        pushd xdebug-${xdebug_oldver} > /dev/null
+        src_url=https://pecl.php.net/get/xdebug-2.9.8.tgz && Download_src
+        tar xzf xdebug-2.9.8.tgz
+        pushd xdebug-2.9.8 > /dev/null
       else
         src_url=https://pecl.php.net/get/xdebug-${xdebug_ver}.tgz && Download_src
         tar xzf xdebug-${xdebug_ver}.tgz
@@ -23,7 +23,7 @@ Install_pecl_xdebug() {
       make -j ${THREAD} && make install
       popd > /dev/null
       if [ -f "${phpExtensionDir}/xdebug.so" ]; then
-        src_url=${mirror_link}/oneinstack/src/webgrind-master.zip && Download_src
+        src_url=${mirror_link}/src/webgrind-master.zip && Download_src
         unzip -q webgrind-master.zip
         /bin/mv webgrind-master ${wwwroot_dir}/default/webgrind
         [ ! -e /tmp/xdebug ] && { mkdir /tmp/xdebug; chown ${run_user}:${run_group} /tmp/xdebug; }
@@ -41,7 +41,7 @@ xdebug.profiler_enable_trigger = 1
 EOF
         echo "${CSUCCESS}PHP xdebug module installed successfully! ${CEND}"
         echo; echo "Webgrind URL: ${CMSG}http://{Public IP}/webgrind ${CEND}"
-        rm -rf xdebug-${xdebug_ver} xdebug-${xdebug_oldver}
+        rm -rf xdebug-${xdebug_ver} xdebug-2.9.8
       else
         echo "${CFAILURE}PHP xdebug module install failed, Please contact the author! ${CEND}" && grep -Ew 'NAME|ID|ID_LIKE|VERSION_ID|PRETTY_NAME' /etc/os-release
       fi

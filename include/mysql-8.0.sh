@@ -73,8 +73,6 @@ Install_MySQL80() {
 port = 3306
 socket = /tmp/mysql.sock
 default-character-set = utf8mb4
-ssl_mode=disabled
-default_auth=mysql_native_password
 
 [mysql]
 prompt="MySQL [\\d]> "
@@ -83,9 +81,7 @@ no-auto-rehash
 [mysqld]
 port = 3306
 socket = /tmp/mysql.sock
-mysql_native_password=ON
-local_infile=0
-mysqlx=OFF
+default_authentication_plugin = mysql_native_password
 
 basedir = ${mysql_install_dir}
 datadir = ${mysql_data_dir}

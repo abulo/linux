@@ -3,7 +3,7 @@
 # BLOG:  https://linuxeye.com
 
 # Custom profile
-cat > /etc/profile.d/oneinstack.sh << EOF
+cat > /etc/profile.d/lnmp.sh << EOF
 HISTSIZE=10000
 HISTTIMEFORMAT="%F %T \$(whoami) "
 

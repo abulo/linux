@@ -36,7 +36,7 @@ Upgrade_PHP() {
       char=`get_char`
     fi
     tar xzf php-${NEW_php_ver}.tar.gz
-    src_url=${mirror_link}/oneinstack/src/fpm-race-condition.patch && Download_src
+    src_url=${mirror_link}/src/fpm-race-condition.patch && Download_src
     patch -d php-${NEW_php_ver} -p0 < fpm-race-condition.patch
     pushd php-${NEW_php_ver}
     if [[ "${OLD_php_ver%.*}" =~ ^7.[1-4]$|^8.[0-1]$ ]] && [ -e ext/openssl/openssl.c ] && ! grep -Eqi '^#ifdef RSA_SSLV23_PADDING' ext/openssl/openssl.c; then

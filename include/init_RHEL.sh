@@ -7,7 +7,7 @@ setenforce 0
 sed -i 's/^SELINUX=.*$/SELINUX=disabled/' /etc/selinux/config
 
 # Custom profile
-cat > /etc/profile.d/oneinstack.sh << EOF
+cat > /etc/profile.d/lnmp.sh << EOF
 HISTSIZE=10000
 PS1="\[\e[37;40m\][\[\e[32;40m\]\u\[\e[37;40m\]@\h \[\e[35;40m\]\W\[\e[0m\]]\\\\$ "
 HISTTIMEFORMAT="%F %T \$(whoami) "
@@ -21,7 +21,7 @@ alias grep='grep --color'
 alias egrep='egrep --color'
 alias fgrep='fgrep --color'
 EOF
-[[ "${Platform}" =~ ^euleros$|^openeuler$ ]] && sed -i '/HISTTIMEFORMAT=/d' /etc/profile.d/oneinstack.sh
+[[ "${Platform}" =~ ^euleros$|^openeuler$ ]] && sed -i '/HISTTIMEFORMAT=/d' /etc/profile.d/lnmp.sh
 
 [[ ! "${Platform}" =~ ^euleros$|^openeuler$ ]] && [ -z "$(grep ^'PROMPT_COMMAND=' /etc/bashrc)" ] && cat >> /etc/bashrc << EOF
 PROMPT_COMMAND='{ msg=\$(history 1 | { read x y; echo \$y; });logger "[euid=\$(whoami)]":\$(who am i):[\`pwd\`]"\$msg"; }'

@@ -36,11 +36,7 @@ Install_Tomcat7() {
   pushd ${tomcat_install_dir}/bin > /dev/null
   tar xzf tomcat-native.tar.gz
   pushd tomcat-native-*-src/native > /dev/null
-  if [ "${armplatform}" == "y" ]; then
-    ./configure --prefix=${apr_install_dir} --with-apr=${apr_install_dir}
-  else
-    ./configure --prefix=${apr_install_dir} --with-apr=${apr_install_dir} --with-ssl=${openssl_install_dir}
-  fi
+  ./configure --prefix=${apr_install_dir} --with-apr=${apr_install_dir}
   make -j ${THREAD} && make install
   popd > /dev/null
   rm -rf tomcat-native-*

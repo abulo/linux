@@ -30,6 +30,10 @@ Install_pecl_mongodb() {
         src_url=https://pecl.php.net/get/mongodb-1.16.2.tgz && Download_src
         tar xzf mongodb-1.16.2.tgz
         pushd mongodb-1.16.2 > /dev/null
+      elif [[ "$(${php_install_dir}/bin/php-config --version | awk -F. '{print $1$2}')" =~ ^74|80$ ]]; then
+        src_url=https://pecl.php.net/get/mongodb-1.20.1.tgz && Download_src
+        tar xzf mongodb-1.20.1.tgz
+        pushd mongodb-1.20.1 > /dev/null
       else
         src_url=https://pecl.php.net/get/mongodb-${pecl_mongodb_ver}.tgz && Download_src
         tar xzf mongodb-${pecl_mongodb_ver}.tgz

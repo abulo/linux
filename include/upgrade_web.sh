@@ -17,10 +17,10 @@ Upgrade_Nginx() {
     if [ "${NEW_nginx_ver}" != "${OLD_nginx_ver}" ]; then
       [ ! -e "nginx-${NEW_nginx_ver}.tar.gz" ] && wget --no-check-certificate -c http://nginx.org/download/nginx-${NEW_nginx_ver}.tar.gz > /dev/null 2>&1
       if [ -e "nginx-${NEW_nginx_ver}.tar.gz" ]; then
-        src_url=${mirror_link}/oneinstack/src/openssl-${openssl_ver}.tar.gz && Download_src
-        src_url=${mirror_link}/oneinstack/src/pcre-${pcre_ver}.tar.gz && Download_src
-        src_url=${mirror_link}/oneinstack/src/ngx_devel_kit.tar.gz && Download_src
-        src_url=${mirror_link}/oneinstack/src/lua-nginx-module-${lua_nginx_module_ver}.tar.gz && Download_src
+        src_url=${mirror_link}/src/openssl-${openssl_ver}.tar.gz && Download_src
+        src_url=${mirror_link}/src/pcre-${pcre_ver}.tar.gz && Download_src
+        src_url=${mirror_link}/src/ngx_devel_kit.tar.gz && Download_src
+        src_url=${mirror_link}/src/lua-nginx-module-${lua_nginx_module_ver}.tar.gz && Download_src
         tar xzf openssl-${openssl_ver}.tar.gz
         tar xzf pcre-${pcre_ver}.tar.gz
         tar xzf ngx_devel_kit.tar.gz
@@ -47,22 +47,22 @@ Upgrade_Nginx() {
     rm -rf $$
     nginx_configure_args=`echo ${nginx_configure_args_tmp} | sed "s@lua-nginx-module-\w.\w\+.\w\+ @lua-nginx-module-${lua_nginx_module_ver} @" | sed "s@lua-nginx-module @lua-nginx-module-${lua_nginx_module_ver} @" | sed "s@--with-openssl=../openssl-\w.\w.\w\+ @--with-openssl=../openssl-${openssl_ver} @" | sed "s@--with-pcre=../pcre-\w.\w\+ @--with-pcre=../pcre-${pcre_ver} @"`
     if [ -n "`echo $nginx_configure_args | grep lua-nginx-module`" ]; then
-      ${current_dir}/upgrade.sh --oneinstack > /dev/null
-      src_url=${mirror_link}/oneinstack/src/luajit2-${luajit2_ver}.tar.gz && Download_src
+      ${current_dir}/upgrade.sh --script > /dev/null
+      src_url=${mirror_link}/src/luajit2-${luajit2_ver}.tar.gz && Download_src
       tar xzf luajit2-${luajit2_ver}.tar.gz
       pushd luajit2-${luajit2_ver}
       make && make install
       popd > /dev/null
       rm -rf luajit2-${luajit2_ver}
 
-      src_url=${mirror_link}/oneinstack/src/lua-resty-core-${lua_resty_core_ver}.tar.gz && Download_src
+      src_url=${mirror_link}/src/lua-resty-core-${lua_resty_core_ver}.tar.gz && Download_src
       tar xzf lua-resty-core-${lua_resty_core_ver}.tar.gz
       pushd lua-resty-core-${lua_resty_core_ver}
       make install
       popd > /dev/null
       rm -rf lua-resty-core-${lua_resty_core_ver}
 
-      src_url=${mirror_link}/oneinstack/src/lua-resty-lrucache-${lua_resty_lrucache_ver}.tar.gz && Download_src
+      src_url=${mirror_link}/src/lua-resty-lrucache-${lua_resty_lrucache_ver}.tar.gz && Download_src
       tar xzf lua-resty-lrucache-${lua_resty_lrucache_ver}.tar.gz
       pushd lua-resty-lrucache-${lua_resty_lrucache_ver}
       make install
@@ -108,8 +108,8 @@ Upgrade_Tengine() {
     if [ "${NEW_tengine_ver}" != "${OLD_tengine_ver}" ]; then
       [ ! -e "tengine-${NEW_tengine_ver}.tar.gz" ] && wget --no-check-certificate -c http://tengine.taobao.org/download/tengine-${NEW_tengine_ver}.tar.gz > /dev/null 2>&1
       if [ -e "tengine-${NEW_tengine_ver}.tar.gz" ]; then
-        src_url=${mirror_link}/oneinstack/src/openssl-${openssl_ver}.tar.gz && Download_src
-        src_url=${mirror_link}/oneinstack/src/pcre-${pcre_ver}.tar.gz && Download_src
+        src_url=${mirror_link}/src/openssl-${openssl_ver}.tar.gz && Download_src
+        src_url=${mirror_link}/src/pcre-${pcre_ver}.tar.gz && Download_src
         tar xzf openssl-${openssl_ver}.tar.gz
         tar xzf pcre-${pcre_ver}.tar.gz
         echo "Download [${CMSG}tengine-${NEW_tengine_ver}.tar.gz${CEND}] successfully! "
@@ -173,8 +173,8 @@ Upgrade_OpenResty() {
     if [ "${NEW_openresy_ver}" != "${OLD_openresy_ver}" ]; then
       [ ! -e "openresty-${NEW_openresy_ver}.tar.gz" ] && wget --no-check-certificate -c https://openresty.org/download/openresty-${NEW_openresy_ver}.tar.gz > /dev/null 2>&1
       if [ -e "openresty-${NEW_openresy_ver}.tar.gz" ]; then
-        src_url=${mirror_link}/oneinstack/src/openssl-${openssl_ver}.tar.gz && Download_src
-        src_url=${mirror_link}/oneinstack/src/pcre-${pcre_ver}.tar.gz && Download_src
+        src_url=${mirror_link}/src/openssl-${openssl_ver}.tar.gz && Download_src
+        src_url=${mirror_link}/src/pcre-${pcre_ver}.tar.gz && Download_src
         tar xzf openssl-${openssl_ver}.tar.gz
         tar xzf pcre-${pcre_ver}.tar.gz
         echo "Download [${CMSG}openresty-${NEW_openresy_ver}.tar.gz${CEND}] successfully! "

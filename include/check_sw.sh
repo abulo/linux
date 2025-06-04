@@ -147,7 +147,7 @@ installDepsBySrc() {
   fi
 
   if command -v lsof >/dev/null 2>&1; then
-    echo 'already initialize' > ~/.oneinstack
+    echo 'already initialize' > ~/.lnmp
   else
     echo "${CFAILURE}${PM} config error parsing file failed${CEND}"
     kill -9 $$; exit 1;

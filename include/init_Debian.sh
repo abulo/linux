@@ -3,7 +3,7 @@
 # BLOG:  https://linuxeye.com
 
 # Custom profile
-cat > /etc/profile.d/oneinstack.sh << EOF
+cat > /etc/profile.d/lnmp.sh << EOF
 HISTSIZE=10000
 PS1='\${debian_chroot:+(\$debian_chroot)}\\[\\e[1;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ '
 HISTTIMEFORMAT="%F %T \$(whoami) "

@@ -8,8 +8,8 @@ Install_phpMyAdmin() {
     PHP_detail_ver=`${php_install_dir}/bin/php-config --version`
     PHP_main_ver=${PHP_detail_ver%.*}
     if [[ "${PHP_main_ver}" =~ ^5.[3-6]$|^7.[0-1]$ ]]; then
-      tar xzf phpMyAdmin-${phpmyadmin_oldver}-all-languages.tar.gz
-      /bin/mv phpMyAdmin-${phpmyadmin_oldver}-all-languages ${wwwroot_dir}/default/phpMyAdmin
+      tar xzf phpMyAdmin-4.4.15.10-all-languages.tar.gz
+      /bin/mv phpMyAdmin-4.4.15.10-all-languages ${wwwroot_dir}/default/phpMyAdmin
     else
       tar xzf phpMyAdmin-${phpmyadmin_ver}-all-languages.tar.gz
       /bin/mv phpMyAdmin-${phpmyadmin_ver}-all-languages ${wwwroot_dir}/default/phpMyAdmin
